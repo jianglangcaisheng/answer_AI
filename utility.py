@@ -1,5 +1,6 @@
 
 import datetime
+import shutil
 
 def mkdir(path):
     import os
@@ -44,3 +45,6 @@ class TimeManager:
         return now
 
 
+def cpy_list2list(list_1, list_2):
+    for i in range(list_1.__len__()):
+        shutil.copy(list_1[i], list_2[i])

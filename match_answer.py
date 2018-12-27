@@ -30,8 +30,60 @@ def crop_answer(whole_img):
     answer_4 = whole_img[start_top+interval_height*3:start_top+box_height+interval_height*3, start_left:start_left+box_width, 0:3]
     return answer_1, answer_2, answer_3, answer_4
 
+def cal_num_scalar(image, color):
+    num =0
+    for loop in range(image.shape[0]):
+        for loop2 in range(image.shape[1]):
+            if image[loop][loop2][0] == color[0] :# and image[loop][loop2][1] == color[1] and image[loop][loop2][2] == color[2]:
+                continue
+            else:
+                #print(image[loop][loop2][0:3])
+                num = num+1
+    return num
 
 def cal_num(image, color):
+    num = 0
+    image_useful = image[:, :, 0] != color[0]
+    num = np.sum(np.sum(image_useful))
+    return int(num)
+
+def cal_num_cat(image, color):
+    if 0:
+        height_split = int(image.shape[0]/3)
+        num = ""
+        
+        for i in range(3):
+        
+            image_useful = image[height_split * i:height_split * (i+1), :, 0] != color[0]
+            num1 = np.sum(np.sum(image_useful))
+            
+            num += str(num1)
+        return int(np.int(num))
+    else:
+        width_split = int(image.shape[1]/2)
+        data_str = ""
+        for i in range(2):
+        
+            image_useful = image[:, width_split * i:width_split * (i+1), 0] != color[0]
+            num = np.sum(np.sum(image_useful))
+            num_str = str(num)
+            if num_str.__len__() == 1:
+                num_str = "0000" + num_str
+            elif num_str.__len__() == 2:
+                num_str = "000" + num_str
+            elif num_str.__len__() == 3:
+                num_str = "00" + num_str
+            elif num_str.__len__() == 4:
+                num_str = "0" + num_str
+            elif num_str.__len__() == 5:
+                pass
+            else:
+                assert False, "num_str length error. length: %d" % num_str.__len__()
+            
+            data_str += num_str
+        return data_str
+
+def cal_num1(image, color):
     num =0
     for loop in range(image.shape[0]):
         for loop2 in range(image.shape[1]):
@@ -46,8 +98,50 @@ def selection(correct_loss, loss1, loss2, loss3, loss4):
     a = np.array([loss1, loss2, loss3, loss4])
     a = np.abs(a-correct_loss)
     sort_id = np.argmin(a)
-    print("selection: ",a, sort_id)
+    #print("selection: ",a, sort_id)
     return sort_id
+
+def selection_str(correct_loss, loss1, loss2, loss3, loss4):
+    
+    def split_str(loss):
+        loss_1 = loss[0:5]
+        loss_2 = loss[5:10]
+        out = np.zeros(shape=(1, 2))
+        out[0, 0] = int(loss_1)
+        out[0, 1] = int(loss_2)
+        return out
+    
+    a = np.concatenate([split_str(loss1), split_str(loss2), split_str(loss3), split_str(loss4)], axis=0)
+    
+    a = np.abs(a-split_str(correct_loss))
+    
+    b = np.max(a, axis=1)
+    sort_id = np.argmin(b)
+    # print("selection: ",b, sort_id)
+    return sort_id
+
+def selection_str_rValue(correct_loss, loss1, loss2, loss3, loss4):
+
+    def split_str(loss):
+        loss_1 = loss[0:5]
+        loss_2 = loss[5:10]
+        out = np.zeros(shape=(1, 2))
+        try:
+            out[0, 0] = int(loss_1)
+            out[0, 1] = int(loss_2)
+        except ValueError:
+            print(loss)
+            assert False, "ValueError"
+        return out
+
+    a = np.concatenate([split_str(loss1), split_str(loss2), split_str(loss3), split_str(loss4)], axis=0)
+
+    a = np.abs(a-split_str(correct_loss))
+
+    b = np.max(a, axis=1)
+    sort_id = np.argmin(b)
+    # print("selection: ",b, sort_id)
+    return [sort_id, b[sort_id]]
 
 
 if __name__ == "__main__":

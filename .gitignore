@@ -7,6 +7,13 @@ autojump_temp.png
 region*.png
 jump_range.csv
 
+screenShot/backup_1227_1540/
+screenShot/history/
+screenShot/keys_1227_1553/
+screenShot/keys_Mi_note3/
+screenShot/keys_Mi_redPro/
+screenShot/origin/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
