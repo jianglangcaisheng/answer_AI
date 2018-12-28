@@ -54,10 +54,10 @@ def imshow_screen(i_frame, answers_label, answers_cat, answers_cat_add, has_answ
     time_last = datetime.datetime.now()
 
     # get image
-    if 1:
+    if config.phone_size == "Mi_redPro":
         pull_screenshot_imgOnPhone(i_frame)
         img = cv2.imread(path_screenShot + "autojump_%d.png" % i_frame)
-    elif 1:
+    elif 0:
         pull_screenshot(i_frame)
         img = cv2.imread(path_screenShot + "autojump_%d.png" % i_frame)
     else:
@@ -171,7 +171,7 @@ def imshow_screen(i_frame, answers_label, answers_cat, answers_cat_add, has_answ
 
             my_answer_output = []
             if str(imshow_screen.key_question2) in answers_cat_add:
-                value_list = answers_cat[str(imshow_screen.key_question2)]
+                value_list = answers_cat_add[str(imshow_screen.key_question2)]
 
                 value_id_min = 9999999999
                 id_best = 0
@@ -250,7 +250,7 @@ def imshow_screen(i_frame, answers_label, answers_cat, answers_cat_add, has_answ
                     question_sum.append(0)
 
                     value = imshow_screen.answer_origin4[i_key]
-                    answers_label[str(imshow_screen.key_question)] = value
+                    answers_label[str(imshow_screen.key_question)] = value 
                     value = imshow_screen.answer_origin42[i_key]
                     answers_cat[str(imshow_screen.key_question2)] = value
                     if str(imshow_screen.key_question2) in answers_cat_add:
@@ -259,8 +259,9 @@ def imshow_screen(i_frame, answers_label, answers_cat, answers_cat_add, has_answ
                         answers_cat_add[str(imshow_screen.key_question2)] = [value]
                     print("题库label大小：%d" % answers_label.__len__())
                     print("题库cat大小：%d" % answers_cat.__len__())
-                    print("answers_cat_add: ")
-                    print(answers_cat_add)
+                    print("题库cat_add大小：%d" % answers_cat_add.__len__())
+                    print("dict: ")
+                    print(answers_cat_add[str(imshow_screen.key_question2)])
 
                     # write dict
                     if 1:
@@ -309,7 +310,8 @@ if __name__ == "__main__":
         def __init__(self):
             self.image_size = (1080, 1920)
             self.__phone_sizes__ = ["Mi_note3", "Mi_redPro"]
-            self.phone_size = self.__phone_sizes__[1]
+            self.phone_size = self.__phone_sizes__[0]
+            print("phone_size: %s" % self.phone_size)
     config = Config()
 
     class Path:

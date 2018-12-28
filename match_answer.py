@@ -1,11 +1,13 @@
 from skimage import io
 import os
 import numpy as np
-
+DEBUG = 0
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-print(BASE_DIR)
+if DEBUG:
+    print(BASE_DIR)
 PICS_DIR = os.path.join(BASE_DIR,"..\\pics\\test_match")
-print(PICS_DIR)
+if DEBUG:
+    print(PICS_DIR)
 
 GREY = [247, 247, 247]
 GREEN = [148, 211, 77]
