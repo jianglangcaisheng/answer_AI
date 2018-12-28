@@ -250,7 +250,7 @@ def imshow_screen(i_frame, answers_label, answers_cat, answers_cat_add, has_answ
                     question_sum.append(0)
 
                     value = imshow_screen.answer_origin4[i_key]
-                    answers_label[str(imshow_screen.key_question)] = value 
+                    answers_label[str(imshow_screen.key_question)] = value
                     value = imshow_screen.answer_origin42[i_key]
                     answers_cat[str(imshow_screen.key_question2)] = value
                     if str(imshow_screen.key_question2) in answers_cat_add:
